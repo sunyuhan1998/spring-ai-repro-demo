@@ -1,0 +1,12 @@
+spring:
+  ai:
+    mcp:
+      client:
+        sse:
+          connections:
+            server1:
+              url: http://localhost:8090
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        model: qwen3:4b
