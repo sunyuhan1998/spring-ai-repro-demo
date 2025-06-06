@@ -41,7 +41,8 @@ public class McpClientApp {
                     """;
 
             System.out.println("> USER: " + userQuestion);
-            System.out.println("> ASSISTANT: " + chatClient.prompt(userQuestion).call().content());
+            System.out.println("> ASSISTANT: ");
+            chatClient.prompt(userQuestion).stream().content().doOnNext(System.out::print).blockLast();
         };
     }
 
