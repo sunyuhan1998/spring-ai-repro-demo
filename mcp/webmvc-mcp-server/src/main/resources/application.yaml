@@ -2,7 +2,7 @@ spring:
   ai:
     mcp:
       server:
-        name: mcp-server
+        name: webmvc-mcp-server
         version: 1.0.0
 server:
-  port: 8090
+  port: 8091
