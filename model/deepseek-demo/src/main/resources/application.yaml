@@ -1,0 +1,7 @@
+spring:
+  ai:
+    deepseek:
+      base-url: https://api.deepseek.com
+      api-key: <API_KEY>
+server:
+  port: 12345
