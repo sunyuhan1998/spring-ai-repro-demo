@@ -45,39 +45,4 @@ public class McpClientApp {
             chatClient.prompt(userQuestion).stream().content().doOnNext(System.out::print).blockLast();
         };
     }
-
-    @Bean
-    McpSyncClientCustomizer samplingCustomizer(@Lazy Map<String, ChatClient> chatClients) {
-
-        return (name, mcpClientSpec) -> {
-
-            mcpClientSpec = mcpClientSpec.loggingConsumer(logingMessage -> {
-                System.out.println("MCP LOGGING: [" + logingMessage.level() + "] " + logingMessage.data());
-            });
-
-            mcpClientSpec.sampling(llmRequest -> {
-                var userPrompt = ((McpSchema.TextContent) llmRequest.messages().get(0).content()).text();
-                String modelHint = llmRequest.modelPreferences().hints().get(0).name();
-
-                ChatClient hintedChatClient = chatClients.entrySet().stream()
-                        .filter(e -> e.getKey().contains(modelHint)).findFirst()
-                        .orElseThrow().getValue();
-
-                String response = hintedChatClient.prompt()
-                        .system(llmRequest.systemPrompt())
-                        .user(userPrompt)
-                        .call()
-                        .content();
-
-                return McpSchema.CreateMessageResult.builder().content(new McpSchema.TextContent(response)).build();
-            });
-            System.out.println("Customizing " + name);
-        };
-    }
-
-    @Bean
-    public Map<String, ChatClient> chatClients(List<ChatModel> chatModels) {
-        return chatModels.stream().collect(Collectors.toMap(model -> model.getClass().getSimpleName().toLowerCase(),
-                model -> ChatClient.builder(model).build()));
-    }
 }

@@ -1,4 +1,4 @@
-package com.example.spring.ai;
+package com.example.spring.ai.deepseek;
 
 import jakarta.annotation.Resource;
 import org.springframework.ai.chat.messages.UserMessage;
